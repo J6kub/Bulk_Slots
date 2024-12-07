@@ -1,0 +1,11 @@
+header h1 {
+    text-align: center;
+}
+footer p {
+    text-align: center;
+}
+#canny {
+    position:relative;
+    left:50%;
+    transform:translate(-50%,0);
+}
