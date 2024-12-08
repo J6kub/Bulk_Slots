@@ -23,7 +23,7 @@ function RenderFrame(wins=false) {
     ctx.fillStyle = "white"
     ctx.fillRect(0,0,1200,700)
     if (typeof(SM) == 'object'){
-        SM.UpdateAll();
+        SM.RenderAll();
     }
 
     img('background',0,0)
@@ -47,6 +47,7 @@ function Spin() {
             console.log('Initiated SlotMachine')
             const SpinInterval = setInterval(function() {
                 console.log('Running interval')
+                SM.UpdateAll()
                 RenderFrame();
                 if (events.includes('Finished4')) {
                     RemoveEvent('Finished4');
@@ -84,6 +85,7 @@ class Slot {
 }
 class SlotMachine {
     constructor(data) {
+        this.size = 150;
         this.LastSymbols = data.symbols;
         this.winlines = data.winlines;
         this.winnings = data.winnings;
@@ -104,8 +106,17 @@ class SlotMachine {
 
 
     }
+
+    RenderAll() {
+        for (let i = 0; i < this.Rows.length; i++) {
+            for (let j = 0; j < this.Rows[i].length; j++) {
+                let slt = this.Rows[i][j];
+                img('slots/' + slt.symbol, slt.x, slt.y, this.size, this.size);
+            }
+        }
+    }
+
     UpdateAll() {
-        let size = 150
         for (let i = 0; i < this.Rows.length; i++) {
             let cRow = this.Rows[i];
 
@@ -122,7 +133,7 @@ class SlotMachine {
                         }
                     }
                 }
-                img('slots/' + slt.symbol, slt.x, slt.y, size, size);
+                //img('slots/' + slt.symbol, slt.x, slt.y, size, size);
             }
 
         }
@@ -133,7 +144,7 @@ class SlotMachine {
             for (let j = 0; j < winlines[i].length; j++) {
                 if (winlines[i][j] == 1) {
                     let slt = this.Rows[i][j + this.Rows[i].length - 3];
-                    img('win',slt.x,slt.y,150,150);
+                    img('win',slt.x,slt.y,this.size,this.size);
                 }
             }
         }
