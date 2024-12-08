@@ -225,7 +225,7 @@ window.onload = function() {
     }
 }
 
-let RENDERER = setInterval(function() {
+const RENDERER = setInterval(function() {
     if (Spinnable && SM !== undefined) {
         SM.RenderWins();
         Buttons[0].render();

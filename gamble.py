@@ -41,17 +41,6 @@ def translator(a):
             return "Tysk"
     return 'Camera'
 
-def CheckWin(slots):
-    Money = 0
-    '''
-    for col,i in slots["symbols"]: // First check of rows
-        print(col)
-        for symbol in col:
-            for index,col in slots["symbols"]:
-                if symbol == col:
-    
-    '''
-# PossibleSlots
 PossibleSlots = ["Linus", "Headset", "Gpu", "Energy", "Camera", "Card", "Printer", "Tysk"]
 
 def CheckWin(symbols):
@@ -59,26 +48,23 @@ def CheckWin(symbols):
     num_rows = len(symbols)
     num_cols = len(symbols[0]) if symbols else 0
 
-    # Initialize the lines array with zeros
     lines = [[0 for _ in range(num_cols)] for _ in range(num_rows)]
 
-    # Traverse through the symbols to calculate winnings and update lines
     for i, row in enumerate(symbols):
         for symbol in PossibleSlots:
             count = row.count(symbol)
-            if count >= 3:  # Example rule: 3 or more same symbols in a row win
-                winnings += count * 10  # Each symbol has a value of 10 (example)
+            if count >= 3:
+                winnings += count * 10
                 for j in range(num_cols):
                     if row[j] == symbol:
                         lines[i][j] = 1
 
-    # Check vertical lines (columns)
     for col in range(num_cols):
         col_symbols = [symbols[row][col] for row in range(num_rows)]
         for symbol in PossibleSlots:
             count = col_symbols.count(symbol)
             if count >= 3:
-                winnings += count * 10
+                winnings += count * 5
                 for row in range(num_rows):
                     if symbols[row][col] == symbol:
                         lines[row][col] = 1
