@@ -10,6 +10,7 @@
         <main>
             <canvas width=1200 height="700" id="canny"></canvas>
             <img id='background' src="{{ url_for('static', filename='img/background.png') }}" hidden>
+            <img id='background' src="{{ url_for('static', filename='img/win.png') }}" hidden>
             <img id='background' src="{{ url_for('static', filename='img/slots/Card.png') }}" hidden>
             <img id='background' src="{{ url_for('static', filename='img/slots/Gpu.png') }}" hidden>
             <img id='background' src="{{ url_for('static', filename='img/slots/Headset.png') }}" hidden>
@@ -17,6 +18,7 @@
             <img id='background' src="{{ url_for('static', filename='img/slots/Printer.png') }}" hidden>
         </main>
         <footer>
+            <h3>Money <text id="money">1000</text></h3>
             <p>Footer</p>
         </footer>
     </body>

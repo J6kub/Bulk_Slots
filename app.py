@@ -14,6 +14,7 @@ def get_slots():
     # function to check balance
 
     res = CreateSlots()
+    #return jsonify(CheckWin(res['symbols']))
 
     # function to Update database
 

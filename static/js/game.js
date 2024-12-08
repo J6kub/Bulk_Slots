@@ -1,9 +1,12 @@
 canvas = document.getElementById('canny');
 ctx = canvas.getContext('2d');
 //ctx.fillRect(0,00,9000,9000)
-offset = 370
+offset = 370;
+let Money = 1000;
+let MoneyO = document.getElementById('money')
 Spinnable = true;
 Buttons = [];
+let SM;
 const PossibleSlots = ["Linus",'Headset','Gpu','Energy','Camera','Card','Printer','Tysk']
 
 async function fetchSlots() {
@@ -16,7 +19,7 @@ async function fetchSlots() {
     }
 }
 
-function RenderFrame() {
+function RenderFrame(wins=false) {
     ctx.fillStyle = "white"
     ctx.fillRect(0,0,1200,700)
     if (typeof(SM) == 'object'){
@@ -28,22 +31,36 @@ function RenderFrame() {
     for (let i=0; i<Buttons.length; i++) {
         Buttons[i].render();
     }
+    if (wins) {
+        SM.RenderWins();
+    }
 }
-var SpinInterval
+
 events = [];
 function Spin() {
     if (Spinnable) {
-        CreateSM();
-        Spinnable = false;
-        SpinInterval = setInterval(function() {
-            RenderFrame();
-            if (events.includes('Finished4')) {
-                RemoveEvent('Finished4');
-                clearInterval(SpinInterval);
-                Spinnable = true;
-                setTimeout(RenderFrame,20)
-            }
-        },10)
+        SM = null;
+        Money -= 10;
+        fetchSlots().then(data => {
+            Spinnable = false;
+            SM = new SlotMachine(data);
+            console.log('Initiated SlotMachine')
+            const SpinInterval = setInterval(function() {
+                console.log('Running interval')
+                RenderFrame();
+                if (events.includes('Finished4')) {
+                    RemoveEvent('Finished4');
+                    clearInterval(SpinInterval);
+                    Spinnable = true;
+                    RenderFrame(true);
+                    SM.RenderWins();
+                    events.push('PrintMoney')
+
+                }
+            },10)
+        });
+
+
     }
 }
 function RemoveEvent(evt) {
@@ -68,7 +85,8 @@ class Slot {
 class SlotMachine {
     constructor(data) {
         this.LastSymbols = data.symbols;
-        console.log(this.LastSymbols);
+        this.winlines = data.winlines;
+        this.winnings = data.winnings;
         this.Rows = [];
         for (let i=0; i < this.LastSymbols.length; i++) {
             let Row = [];
@@ -99,8 +117,8 @@ class SlotMachine {
                     if (!events.includes('Finished' + i)) {
                         events.push('Finished' + i)
                         if (i == 4) {
-                            console.log('SPinbutton!')
                             events.push('spinbutton');
+                            this.RenderWins()
                         }
                     }
                 }
@@ -109,13 +127,20 @@ class SlotMachine {
 
         }
     }
+    RenderWins() {
+        let winlines = this.winlines
+        for (let i = 0; i < winlines.length; i++) {
+            for (let j = 0; j < winlines[i].length; j++) {
+                if (winlines[i][j] == 1) {
+                    let slt = this.Rows[i][j + this.Rows[i].length - 3];
+                    img('win',slt.x,slt.y,150,150);
+                }
+            }
+        }
+    }
 }
-let SM;
-function CreateSM() {
-    fetchSlots().then(data => {
-        SM = new SlotMachine(data);
-    });
-}
+
+
 
 function img(image, x=0,y=0,xw=0,yw=0) {
     imageSrc = 'static/img/' + image + '.png'
@@ -163,12 +188,14 @@ class Button {
 
 function ClickHandling(evt) {
     let Cords = {"x": evt.offsetX, "y":evt.offsetY}
-    console.log(Cords);
     for (let i=0; i<Buttons.length; i++) {
         let button = Buttons[i];
-        console.log(button);
         if ( btw(Cords.x,button.x,button.x+button.width) && btw(Cords.y,button.y,button.y+button.height)) {
+            console.log(button.img +' has been pressed')
             button.func();
+            if (button.img == 'spinbutton') {
+                setTimeout(button.funct,100)
+            }
         }
     }
 }
@@ -186,3 +213,15 @@ window.onload = function() {
         setTimeout(RenderFrame, i*50)
     }
 }
+
+let RENDERER = setInterval(function() {
+    if (Spinnable && SM !== undefined) {
+        SM.RenderWins();
+        Buttons[0].render();
+    }
+    if (events.includes('PrintMoney')) {
+        RemoveEvent('PrintMoney');
+        Money += SM.winnings;
+        MoneyO.innerHTML = Money + " + " + SM.winnings
+    }
+},250)
