@@ -47,7 +47,7 @@ function Spin() {
             SM = new SlotMachine(data);
             console.log('Initiated SlotMachine')
             const SpinInterval = setInterval(function() {
-                console.log('Running interval')
+                //console.log('Running interval')
                 SM.UpdateAll()
                 RenderFrame();
                 if (events.includes('Finished4')) {
