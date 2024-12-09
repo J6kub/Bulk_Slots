@@ -30,15 +30,15 @@ def translator(a):
         case _ if a in range(201, 300):
             return 'Gpu'
         case _ if a in range(301, 400):
-            return "Energy"
+            return "Tysk"
         case _ if a in range(401, 500):
             return 'Camera'
         case _ if a in range(501, 600):
             return "Card"
-        case _ if a in range(601, 700):
+        case _ if a in range(701, 800):
             return 'Printer'
-        case _ if a in range(701, 1000):
-            return "Tysk"
+        case _ if a in range(801, 1000):
+            return "Energy"
     return 'Camera'
 
 PossibleSlots = ["Linus", "Headset", "Gpu", "Energy", "Camera", "Card", "Printer", "Tysk"]
@@ -58,7 +58,7 @@ def CheckWin(symbols):
                 for j in range(num_cols):
                     if row[j] == symbol:
                         lines[i][j] = 1
-
+             
     for col in range(num_cols):
         col_symbols = [symbols[row][col] for row in range(num_rows)]
         for symbol in PossibleSlots:

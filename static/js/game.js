@@ -6,6 +6,7 @@ let Money = 1000;
 let MoneyO = document.getElementById('money')
 Spinnable = true;
 Buttons = [];
+let LoadedImages = {};
 let SM;
 const PossibleSlots = ["Linus",'Headset','Gpu','Energy','Camera','Card','Printer','Tysk']
 
@@ -80,7 +81,7 @@ class Slot {
         this.symbol = symbol;
     }
     move() {
-        this.y += 10
+        this.y += 20
     }
 }
 class SlotMachine {
@@ -154,9 +155,15 @@ class SlotMachine {
 
 
 function img(image, x=0,y=0,xw=0,yw=0) {
-    imageSrc = 'static/img/' + image + '.png'
-    imageC = new Image();
-    imageC.src = imageSrc
+    let imageSrc = 'static/img/' + image + '.png'
+    let imageC = LoadedImages[imageSrc];
+
+    if (imageC === undefined) {
+        console.log('preloaded ' + image);
+        imageC = new Image();
+        imageC.src = imageSrc
+        LoadedImages[imageSrc] = imageC
+    }
     if (yw > 0 && xw > 0) {
         ctx.drawImage(imageC,x,y,xw,yw)
     } else {
