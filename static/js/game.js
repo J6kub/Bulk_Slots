@@ -211,9 +211,6 @@ function ClickHandling(evt) {
         if ( btw(Cords.x,button.x,button.x+button.width) && btw(Cords.y,button.y,button.y+button.height)) {
             console.log(button.img +' has been pressed')
             button.func();
-            if (button.img == 'spinbutton') {
-                setTimeout(button.funct,100)
-            }
         }
     }
 }
