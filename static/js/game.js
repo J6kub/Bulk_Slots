@@ -239,4 +239,7 @@ const RENDERER = setInterval(function() {
         Money += SM.winnings;
         MoneyO.innerHTML = Money + " + " + SM.winnings
     }
+    for (let button in Buttons) {
+        button.render();
+    }
 },250)
