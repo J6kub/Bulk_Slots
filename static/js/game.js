@@ -239,7 +239,5 @@ const RENDERER = setInterval(function() {
         Money += SM.winnings;
         MoneyO.innerHTML = Money + " + " + SM.winnings
     }
-    for (let button in Buttons) {
-        button.render();
-    }
+    for (let i=0; i<Buttons.length; i++) {Buttons[i].render()}
 },250)
