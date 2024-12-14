@@ -60,6 +60,8 @@ def get_slots():
     setSessionUserData()
     # function to check balance
     betReq = int(request.args.get('bet'))
+    if betReq <= 0:
+        betReq = 1
     if session['money'] >= betReq:
         res = CreateSlots(betReq)
         session['money'] += (-betReq + res['winnings'])

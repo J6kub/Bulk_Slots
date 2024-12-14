@@ -3,6 +3,8 @@ from flask import session
 
 
 def CreateSlots(bet=10):
+    if bet <= 0:
+        bet = 1
     lines = [];
     symbols = []
     for i in range(5):
