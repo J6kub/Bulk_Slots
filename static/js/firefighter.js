@@ -207,11 +207,6 @@ class Button {
     }
 
 }
-function TextBox(txt, x, y) {
-    ctx.font = '50px Arial';
-    ctx.fillText(txt,x,y);
-}
-
 
 function ClickHandling(evt) {
     let Cords = {"x": evt.offsetX, "y":evt.offsetY}
@@ -231,17 +226,6 @@ function color(col) {
 }
 
 Buttons.push(new Button(Spin,850,510,200,200,'spinbutton',true))
-Buttons.push(new Button(lowerBet,750,560,100,100,'subbet'))
-Buttons.push(new Button(function() {RenderFrame(); bet += 10},550,560,100,100,'addbet'))
-
-function lowerBet() {
-    if (bet - 10 > 0) {
-        bet -= 10
-    } else {
-        alert('reached minimum bet')
-    }
-    RenderFrame()
-}
 
 window.onload = function() {
     for (let i=0;i<3;i++) {
@@ -260,14 +244,12 @@ const RENDERER = setInterval(function() {
 
         }
 
-
-
+        Buttons[0].render();
     }
     if (events.includes('PrintMoney')) {
         RemoveEvent('PrintMoney');
         Money += SM.winnings;
         MoneyO.innerHTML = Money + " + " + SM.winnings
     }
-    TextBox(bet,670,630);
-    Buttons.forEach(x => x.render())
+    for (let i=0; i<Buttons.length; i++) {Buttons[i].render()}
 },250)
