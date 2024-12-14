@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}?v=1.0">
+    </head>
+    <body>
+        <header>
+            <h1>Bulk Slots!</h1>
+        </header>
+        <main>
+            <canvas width=1200 height="700" id="canny"></canvas>
+            <img id='background' src="{{ url_for('static', filename='img/background.png') }}" hidden>
+            <img id='background' src="{{ url_for('static', filename='img/win.png') }}" hidden>
+            <img id='background' src="{{ url_for('static', filename='img/slots/Card.png') }}" hidden>
+            <img id='background' src="{{ url_for('static', filename='img/slots/Gpu.png') }}" hidden>
+            <img id='background' src="{{ url_for('static', filename='img/slots/Headset.png') }}" hidden>
+            <img id='background' src="{{ url_for('static', filename='img/slots/Linus.png') }}" hidden>
+            <img id='background' src="{{ url_for('static', filename='img/slots/Printer.png') }}" hidden>
+        </main>
+        <footer>
+            <h3>Money <text id="money">1000</text></h3>
+            <p>Footer</p>
+        </footer>
+    </body>
+
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</html>
