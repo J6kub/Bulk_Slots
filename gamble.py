@@ -1,15 +1,17 @@
 import random
+from flask import session
 
-def CreateSlots():
+
+def CreateSlots(bet=10):
     lines = [];
     symbols = []
     for i in range(5):
         line = createLine()
         lines.append(line)
         symbols.append(list(map(translator,line)))
-    wins = CheckWin(symbols)
+    wins = CheckWin(symbols, bet)
 
-    randoms = {"lines": lines, "symbols": symbols, 'winnings': wins['winnings'], 'winlines':wins['lines']}
+    randoms = {"lines": lines, "symbols": symbols, 'winnings': wins['winnings'], 'winlines':wins['lines'], 'money':session['money']}
 
     return randoms
 
@@ -43,7 +45,7 @@ def translator(a):
 
 PossibleSlots = ["Linus", "Headset", "Gpu", "Energy", "Camera", "Card", "Printer", "Tysk"]
 
-def CheckWin(symbols):
+def CheckWin(symbols, bet):
     winnings = 0
     num_rows = len(symbols)
     num_cols = len(symbols[0]) if symbols else 0
@@ -54,7 +56,7 @@ def CheckWin(symbols):
         for symbol in PossibleSlots:
             count = row.count(symbol)
             if count >= 3:
-                winnings += count * 10
+                winnings += count * bet
                 for j in range(num_cols):
                     if row[j] == symbol:
                         lines[i][j] = 1
@@ -64,7 +66,7 @@ def CheckWin(symbols):
         for symbol in PossibleSlots:
             count = col_symbols.count(symbol)
             if count >= 3:
-                winnings += count * 5
+                winnings += count * bet
                 for row in range(num_rows):
                     if symbols[row][col] == symbol:
                         lines[row][col] = 1

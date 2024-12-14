@@ -4,6 +4,7 @@ ctx = canvas.getContext('2d');
 offset = 370;
 let Money = 1000;
 let MoneyO = document.getElementById('money')
+let bet = 10;
 Spinnable = true;
 Buttons = [];
 let LoadedImages = {};
@@ -12,7 +13,7 @@ const PossibleSlots = ["Linus",'Headset','Gpu','Energy','Camera','Card','Printer
 
 async function fetchSlots() {
     try {
-        const response = await fetch('/GetSlots');
+        const response = await fetch('/GetSlots?bet=' + bet);
         const data = await response.json();
         return data;
     } catch (error) {
@@ -41,9 +42,10 @@ events = [];
 function Spin() {
     if (Spinnable) {
         SM = null;
-        Money -= 10;
+        Money -= bet;
         fetchSlots().then(data => {
             Spinnable = false;
+            Money = data['money']
             SM = new SlotMachine(data);
             console.log('Initiated SlotMachine')
             const SpinInterval = setInterval(function() {
@@ -227,6 +229,9 @@ window.onload = function() {
     for (let i=0;i<3;i++) {
         setTimeout(RenderFrame, i*50)
     }
+    fetch('/GetUserData')
+        .then(resp => resp.json())
+        .then(data => { const Money = data.money; MoneyO.innerHTML = Money; })
 }
 
 const RENDERER = setInterval(function() {

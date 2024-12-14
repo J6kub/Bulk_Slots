@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}?v=1.0">
+        <style>
+        body {
+            background-image: url("{{ url_for('static', filename='img/bckg.jpg') }}");
+            background-size: cover;
+        }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Bulk Casino!</h1>
+        </header>
+        <main>
+            <section id="login" hidden>
+                <div class="cont">
+                    <form method="post" action="/login">
+                        <h2>Login</h2>
+                        <input placeholder="name" type="text" name="name"><br>
+                        <input placeholder="password" type="password" name="password"><br>
+                        <input type="submit">
+                        <u><a>Click to Register</a></u>
+                    </form>
+                </div>
+            </section>
+            <section id="register" >
+                <div class="cont">
+                    <form method="post" action="/register">
+                        <h2>Register</h2>
+                        <input placeholder="name" type="text" name="name"><br>
+                        <input placeholder="password" type="password" name="password"><br>
+                        <input type="checkbox" name="check"> <text>By checking this i confirm that i'll gamble responsibly</text><br>
+                        <input type="submit">
+                        <u><a>Click to Login</a></u>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+    </body>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</html>

@@ -1,0 +1,41 @@
+.cont {
+    display:inline-block;
+    position:absolute;
+    top:200px;
+    left:50%;
+    transform:translate(-50%,0);
+    padding:30;
+    background-color:rgba(255,255,255,0.7);
+    text-align: center;
+    border-radius:15px;
+}
+.cont input {
+    font-size:26;
+    margin:5;
+    padding:10;
+    background-color:rgba(255,255,255,0.7);
+    border-radius: 15px;
+    border: 2px solid black;
+    transition:background-color 0.3s, border 0.3s;
+}
+.cont input:hover {
+    background-color:rgba(255,255,255,0.9);
+}
+.cont input[type="submit"] {
+    width:100%;
+}
+.cont h2 {
+    font-size:30;
+}
+header {
+    text-align: center;
+
+}
+.cont text {
+    font-size:13
+}
+a {
+    text-underline: blue;
+    color:blue;
+}
+
