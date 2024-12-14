@@ -44,6 +44,10 @@ function Spin() {
         SM = null;
         Money -= bet;
         fetchSlots().then(data => {
+            if (data['balance'] == 0) {
+                alert('not enough money');
+                return false;
+            }
             Spinnable = false;
             Money = data['money']
             SM = new SlotMachine(data);
@@ -63,8 +67,6 @@ function Spin() {
                 }
             },10)
         });
-
-
     }
 }
 function RemoveEvent(evt) {
@@ -236,7 +238,12 @@ window.onload = function() {
 
 const RENDERER = setInterval(function() {
     if (Spinnable && SM !== undefined) {
-        SM.RenderWins();
+        try {
+            SM.RenderWins();
+        } catch {
+
+        }
+
         Buttons[0].render();
     }
     if (events.includes('PrintMoney')) {
