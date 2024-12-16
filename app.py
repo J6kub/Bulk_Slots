@@ -1,9 +1,13 @@
 from flask import Flask, render_template, request, session, redirect, url_for
+from jinja2 import Undefined
+
+from fire import CreateFire, btw
 from gamble import CreateSlots
 from flask import jsonify
 from db import cursor, conn
 from sqlcoms import *
 import xxhash
+import copy
 app = Flask(__name__)
 app.secret_key = "iverymuchlikemcdonaldsandmanyotherpotatothings"
 
@@ -14,8 +18,9 @@ def main():  # put application's code here
         if len(cursor.fetchall()) > 0:
             setSessionUserData()
             return render_template('index.html', data={'name':session['username'],'money':session['money']})
-
-    return render_template('login.html')
+    if "ErrorCodeLogin" not in session:
+        session['ErrorCodeLogin'] = ''
+    return render_template('login.html', data=session['ErrorCodeLogin'])
 
     # if logged in render index
     # else render login page
@@ -28,6 +33,8 @@ def register():
 
     cursor.execute('SELECT * FROM users WHERE name="' + regData['name'] + '"')
     if len(cursor.fetchall()) > 0:
+        session['ErrorCodeLogin'] = "User already Exists"
+        return redirect(url_for('main'))
         return "User already exists!"
     else:
         cursor.execute('INSERT INTO users (name, password, money) VALUES (?, ?, ?)',(regData['name'],hashPass,1000))
@@ -47,6 +54,8 @@ def login():
         session['username'] = userData[0][1]
         return redirect(url_for('main'))
     else:
+        session['ErrorCodeLogin'] = "Invalid Credentials"
+        return redirect(url_for('main'))
         return 'wrong password or username'
 
 
@@ -87,5 +96,43 @@ def getUserData():
 def logout():
     log_out()
     return redirect(url_for('main'))
+
+@app.route('/fire')
+def fire():
+    return render_template('firefighter.html')
+@app.route('/GetFire', methods=['GET'])
+def getFire():
+
+    try:
+        setSessionUserData()
+    except:
+        return redirect(url_for('main'))
+
+    if 'fire' not in session:
+        fire = CreateFire()
+        session['fire'] = fire
+
+
+    if request.args.get('x') and request.args.get('y'):
+        RetFire = {
+            "x": int(request.args.get('x')),
+            "y": int(request.args.get('y'))
+        }
+        fire = session['fire']
+        if btw(RetFire["x"], fire["x"], fire["x"] + fire["size"]) and btw(RetFire["y"], fire["y"], fire["y"] + fire["size"]):
+            setBalance(session['money'] + fire["size"])
+            fire = CreateFire()
+            session['fire'] = fire
+
+    output = {
+        'userdata': {
+            'name': session['username'],
+            'money':session['money']
+        },
+        'firedata':session['fire']
+    }
+
+    return jsonify(output)
+
 if __name__ == '__main__':
     app.run()

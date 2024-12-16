@@ -36,6 +36,7 @@ function RenderFrame(wins=false) {
     if (wins) {
         SM.RenderWins();
     }
+    TextBoxRender()
 }
 
 events = [];
@@ -211,7 +212,9 @@ function TextBox(txt, x, y) {
     ctx.font = '50px Arial';
     ctx.fillText(txt,x,y);
 }
-
+function TextBoxRender() {
+    TextBox(bet,670,630);
+}
 
 function ClickHandling(evt) {
     let Cords = {"x": evt.offsetX, "y":evt.offsetY}
@@ -255,6 +258,7 @@ window.onload = function() {
 const RENDERER = setInterval(function() {
     if (Spinnable && SM !== undefined) {
         try {
+            RenderFrame()
             SM.RenderWins();
         } catch {
 
@@ -268,6 +272,6 @@ const RENDERER = setInterval(function() {
         Money += SM.winnings;
         MoneyO.innerHTML = Money + " + " + SM.winnings
     }
-    TextBox(bet,670,630);
+
     Buttons.forEach(x => x.render())
 },250)

@@ -17,7 +17,6 @@ footer  {
     align-items: center;
     justify-content: center;
     height: 100vh; /* Full viewport height */
-    background-color: #f0f0f0; /* Light background color */
 }
 
 .flexy a {

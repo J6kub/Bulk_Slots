@@ -21,6 +21,7 @@
                         <input placeholder="name" type="text" name="name"><br>
                         <input placeholder="password" type="password" name="password"><br>
                         <input type="submit">
+                        <br>{{ data }}<br>
                         <u><a>Click to Register</a></u>
                     </form>
                 </div>
@@ -33,6 +34,7 @@
                         <input placeholder="password" type="password" name="password"><br>
                         <input type="checkbox" name="check"> <text>By checking this i confirm that i'll gamble responsibly</text><br>
                         <input type="submit">
+                        <br>{{ data }}<br>
                         <u><a>Click to Login</a></u>
                     </form>
                 </div>
@@ -42,4 +44,10 @@
     </body>
 
     <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script>
+        let ErrorCode = "{{ data }}"
+        if (ErrorCode != undefined) {
+            //alert(ErrorCode)
+        }
+    </script>
 </html>
