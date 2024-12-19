@@ -28,11 +28,17 @@ async function reqFire(idata = undefined) {
     }
 }
 function FireFighter(idata) {
-    idata = {"x":idata.x, "y":idata.y}
+    idata = {"x":idata.offsetX, "y":idata.offsetY}
     reqFire(idata).then(ReqData => {
         MoneyO.innerHTML = ReqData.userdata.money;
+        //console.log(ReqData.firedata)
+        if (ReqData.firedata.x == Buttons[0].x && ReqData.firedata.y == Buttons[0].y) {
 
-        
+        } else {
+            Buttons[0] = new Button(function(){
+                console.log("I'm fired up")
+            },ReqData.firedata.x,ReqData.firedata.y,ReqData.firedata.size,ReqData.firedata.size,'flame/frame_',ReqData.firedata.id)
+        }
     })
 }
 
@@ -111,18 +117,7 @@ class Button {
 }
 
 
-function ClickHandling(evt) {
-    let Cords = {"x": evt.offsetX, "y":evt.offsetY}
-    for (let i=0; i<Buttons.length; i++) {
-        let button = Buttons[i];
-        if ( btw(Cords.x,button.x,button.x+button.width) && btw(Cords.y,button.y,button.y+button.height)) {
-            console.log(button.img +' has been pressed')
-            button.func();
-        }
-    }
-}
-
-canvas.addEventListener('click',ClickHandling);
+canvas.addEventListener('click',function (e){FireFighter(e)});
 function btw(a,b,c) {return (a > b && a < c) ? true : false}
 
 function color(col) {
@@ -130,7 +125,7 @@ function color(col) {
 }
 
 Buttons.push(new Button(function(){
-    console.log('niga')
+    console.log("How's snooping around little man?")
 },850,510,200,200,'flame/frame_',69))
 
 window.onload = function() {
@@ -146,3 +141,5 @@ const RENDERER = setInterval(function() {
         Buttons[i].render();
     }
 },50)
+
+canny.onload() = FireFighter({offsetX:0, offsetY:0})
