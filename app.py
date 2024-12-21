@@ -99,7 +99,7 @@ def logout():
 
 @app.route('/fire')
 def fire():
-    return render_template('firefighter.html')
+    return render_template('firefighter.html', data=session['money'])
 @app.route('/GetFire', methods=['GET'])
 def getFire():
 

@@ -30,7 +30,8 @@ async function reqFire(idata = undefined) {
 function FireFighter(idata) {
     idata = {"x":idata.offsetX, "y":idata.offsetY}
     reqFire(idata).then(ReqData => {
-        MoneyO.innerHTML = ReqData.userdata.money;
+        MoneyO.innerHTML = ReqData.userdata.money + " + " + (ReqData.userdata.money - Money);
+        Money = ReqData.userdata.money
         //console.log(ReqData.firedata)
         if (ReqData.firedata.x == Buttons[0].x && ReqData.firedata.y == Buttons[0].y) {
 
@@ -132,6 +133,7 @@ window.onload = function() {
     for (let i=0;i<3;i++) {
         setTimeout(RenderFrame, i*50)
     }
+    Money = Number(MoneyO.innerHTML)
 }
 
 const RENDERER = setInterval(function() {
